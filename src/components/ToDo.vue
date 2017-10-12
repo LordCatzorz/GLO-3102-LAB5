@@ -22,8 +22,8 @@
     name: 'ToDo',
     data: function () {
       return {
-        id_user: 'NOT YET IMPLEMENTED',
-        theTasks: [{id: 1, name: 'nope'}]
+        id_user: undefined,
+        theTasks: []
       }
     },
 
@@ -37,7 +37,6 @@
           }
         }).then((theData) => {
           this.id_user = theData["id"];
-          this.theTasks.push({id: 1, name: "name"});
         }).catch((error) => {
           alert('Error. Error. Error.' + error);
         });
