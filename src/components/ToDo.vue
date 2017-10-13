@@ -9,7 +9,8 @@
       <task v-on:delete-task="getUserTasks()" v-for="aTask in theTasks" :key="aTask.id" :task="aTask" :user="id_user">
       </task>
       <div>
-        <input type="button" value="+" v-on:click="createNewTask">
+        <input v-model="temporaryTaskName" v-on:blur="createNewTask" v-on:keyup.13="createNewTask"
+               placeholder="Insert your task here">
       </div>
     </div>
   </div>
@@ -24,6 +25,7 @@
     name: 'ToDo',
     data: function () {
       return {
+        temporaryTaskName: undefined,
         id_user: undefined,
         theTasks: []
       }
@@ -43,12 +45,13 @@
       },
 
       createNewTask: function () {
-        let newTaskName = prompt("What do you want to accomplish?", "Be a better cat");
-        if (newTaskName !== null && newTaskName !== '') {
-          CreateNewTaskAsync(this.id_user, newTaskName).then((response) => {
+        if (this.temporaryTaskName !== null && this.temporaryTaskName !== '' && this.temporaryTaskName !== undefined) {
+          CreateNewTaskAsync(this.id_user, this.temporaryTaskName).then((response) => {
             this.getUserTasks()
           });
         }
+
+        this.temporaryTaskName = undefined;
       }
     },
 
