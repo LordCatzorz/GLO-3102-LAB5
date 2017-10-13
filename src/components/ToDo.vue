@@ -17,6 +17,8 @@
 
 <script>
   import Task from './Task'
+  import {CreateNewUserASync, GetUserTasksASync, CreateNewTaskAsync} from './api.js'
+
   export default {
     components: {Task},
     name: 'ToDo',
@@ -29,54 +31,22 @@
 
     methods: {
       createNewUser: function () {
-        let myRequest = new Request("https://glo3102lab4.herokuapp.com/users", {method: "POST"});
-
-        fetch(myRequest).then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        }).then((theData) => {
-          this.id_user = theData["id"];
-        }).catch((error) => {
-          alert('Error. Error. Error.' + error);
+        CreateNewUserASync().then((response) => {
+          this.id_user = response
         });
       },
 
       getUserTasks: function () {
-        let myRequest = new Request("https://glo3102lab4.herokuapp.com/" + this.id_user + "/tasks", {
-          method: "GET"
+        GetUserTasksASync(this.id_user).then((response) => {
+          this.theTasks = response
         });
-        fetch(myRequest).then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        }).then((theData) => {
-          this.theTasks = theData.tasks;
-        }).catch((error) => {
-          alert('Error. Error. Error.' + error);
-        })
       },
 
       createNewTask: function () {
         let newTaskName = prompt("What do you want to accomplish?", "Be a better cat");
-        if (newTaskName !== null) {
-          let jsonTask = JSON.stringify({name: newTaskName});
-
-          let headers = new Headers();
-          headers.append('Content-Type', 'application/json');
-
-          let myRequest = new Request("https://glo3102lab4.herokuapp.com/" + this.id_user + "/tasks", {
-            method: "POST",
-            headers: headers,
-            body: jsonTask
-          });
-
-          fetch(myRequest).then((response) => {
-            if (response.ok) {
-              this.getUserTasks();
-            }
-          }).catch((error) => {
-            alert('Error. Error. Error.' + error);
+        if (newTaskName !== null && newTaskName !== '') {
+          CreateNewTaskAsync(this.id_user, newTaskName).then((response) => {
+            this.getUserTasks()
           });
         }
       }
