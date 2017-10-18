@@ -20,4 +20,4 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-_Tester avec Version 61.0.3163.91 (Official Build) (64-bit)_npm 
+_Tester avec Version 61.0.3163.91 (Official Build) (64-bit)_
